@@ -1,4 +1,4 @@
-package edu.ncsu.csc326.coffeemaker;
+package com.coffeemaker;
 
 public class RecipeBook {
 	

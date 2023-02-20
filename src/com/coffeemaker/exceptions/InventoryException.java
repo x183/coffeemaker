@@ -1,4 +1,4 @@
-package edu.ncsu.csc326.coffeemaker.exceptions;
+package com.coffeemaker.exceptions;
 
 public class InventoryException extends Exception {
 

@@ -1,6 +1,8 @@
-package edu.ncsu.csc326.coffeemaker;
+package com.coffeemaker;
 
-import edu.ncsu.csc326.coffeemaker.exceptions.InventoryException;
+import com.coffeemaker.CoffeeMaker;
+import com.coffeemaker.Recipe;
+import com.coffeemaker.exceptions.InventoryException;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
@@ -11,7 +13,7 @@ import org.junit.Test;
 
 /**
  *
- * Example Unit tests for CoffeeMaker class.
+ * Example Unit tests for Coffee Maker class.
  * Do not submit as your own!
  */
 public class ExampleTest {

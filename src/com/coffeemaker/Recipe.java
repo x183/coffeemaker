@@ -1,6 +1,6 @@
-package edu.ncsu.csc326.coffeemaker;
+package com.coffeemaker;
 
-import edu.ncsu.csc326.coffeemaker.exceptions.RecipeException;
+import com.coffeemaker.exceptions.RecipeException;
 
 /**
  * @author   Sarah Heckman
