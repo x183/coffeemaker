@@ -73,4 +73,15 @@ public class InventorySugarTests {
         }
         assertEquals(10,addSugarTestInventory.getSugar());
     }
+
+    @Test
+    public void testAddSugarLetter(){
+        addSugarTestInventory.setSugar(5);
+        try {
+            addSugarTestInventory.addSugar("a");
+        }catch(Exception e){
+            fail("while adding a letter to amount shouldn't be possible, it shouldn't throw an error");
+        }
+        assertEquals(5,addSugarTestInventory.getSugar());
+    }
 }

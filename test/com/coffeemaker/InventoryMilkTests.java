@@ -73,4 +73,15 @@ public class InventoryMilkTests {
         }
         assertEquals(10,addMilkTestInventory.getMilk());
     }
+
+    @Test
+    public void testAddMilkLetter(){
+        addMilkTestInventory.setMilk(5);
+        try {
+            addMilkTestInventory.addMilk("a");
+        }catch(Exception e){
+            fail("while adding a letter to amount shouldn't be possible, it shouldn't throw an error");
+        }
+        assertEquals(5,addMilkTestInventory.getMilk());
+    }
 }
