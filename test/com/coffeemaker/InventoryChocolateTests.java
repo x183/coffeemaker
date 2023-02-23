@@ -75,12 +75,8 @@ public class InventoryChocolateTests {
 
     @Test
     public void testAddChocolateLetter(){
-        addChocolateTestInventory.setChocolate(5);
-        try {
+        assertThrows(InventoryException.class, () -> {
             addChocolateTestInventory.addChocolate("a");
-        }catch(Exception e){
-            fail("while adding a letter to amount shouldn't be possible, it shouldn't throw an error");
-        }
-        assertEquals(5,addChocolateTestInventory.getChocolate());
+        });
     }
 }

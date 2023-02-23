@@ -75,12 +75,8 @@ public class InventoryCoffeeTests {
     }
     @Test
     public void testAddCoffeeLetter(){
-        addCoffeeTestInventory.setCoffee(5);
-        try {
+        assertThrows(InventoryException.class, () -> {
             addCoffeeTestInventory.addCoffee("a");
-        }catch(Exception e){
-            fail("while adding a letter to amount shouldn't be possible, it shouldn't throw an error");
-        }
-        assertEquals(5,addCoffeeTestInventory.getCoffee());
-    }
+        });
+           }
 }
