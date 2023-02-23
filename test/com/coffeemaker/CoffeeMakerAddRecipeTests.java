@@ -78,8 +78,13 @@ public class CoffeeMakerAddRecipeTests {
     @Test
     public void testAddRecipe_ValidRecipe() {
 
-        boolean add = cf.addRecipe(r1);
-        assertTrue(add);
+        boolean addByCf = cf.addRecipe(r1);
+        assertTrue(addByCf);
+
+        boolean addByRb = new RecipeBook().addRecipe(r1);
+        assertTrue(addByRb);
+
+        assertEquals(addByCf, addByRb);
 
         Recipe[] expectedArr = cf.getRecipes();
         Recipe[] actualArr = {r1,null,null,null};

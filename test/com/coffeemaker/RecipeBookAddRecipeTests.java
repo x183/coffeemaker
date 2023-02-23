@@ -74,9 +74,32 @@ public class RecipeBookAddRecipeTests {
 
         assertTrue(appended);
 
-        //TODO: Should I check if the recipe is actually added as well ?
         Recipe[] expectedArr = rb.getRecipes();
         Recipe[] actualArr = {r1, null, null, null};
+
+        assertArrayEquals(expectedArr, actualArr);
+
+    }
+
+    @Test
+    public void testAddRecipe_AddNullRecipe() {
+
+        assertThrows(NullPointerException.class,
+                () -> {
+                    boolean appended = rb.addRecipe(null);
+                });
+
+    }
+
+    @Test
+    public void testAddRecipe_AddDefaultRecipe() {
+
+        boolean appended = rb.addRecipe(new Recipe());
+
+        assertTrue(appended);
+
+        Recipe[] expectedArr = rb.getRecipes();
+        Recipe[] actualArr = {new Recipe(), null, null, null};
 
         assertArrayEquals(expectedArr, actualArr);
 
@@ -93,7 +116,6 @@ public class RecipeBookAddRecipeTests {
         assertTrue(appended2);
         assertFalse(appended3);
 
-        //TODO: Should I check for the array of recipe as well ?
         Recipe[] expectedArr = rb.getRecipes();
         Recipe[] actualArr = {r2, r3, null, null};
 
@@ -104,7 +126,6 @@ public class RecipeBookAddRecipeTests {
     @Test
     public void testAddRecipe_AddToFullArray() {
 
-        //TODO: Should I care(test them) about the return values of these as well ?
         boolean appended1 = rb.addRecipe(r1);
         boolean appended2 = rb.addRecipe(r2);
         boolean appended3 = rb.addRecipe(r3);
@@ -117,7 +138,7 @@ public class RecipeBookAddRecipeTests {
         assertTrue(appended4);
         assertFalse(appended5);
 
-        //TODO: Should I check for if the recipe is actually not added or it suffice that the return value for r5 is false
+
         Recipe[] arr = rb.getRecipes();
         for (Recipe recipe : arr) {
             assertNotEquals(recipe, r5);

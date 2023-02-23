@@ -177,7 +177,7 @@ public class CoffeeMakerAddInventoryTests {
     }
 
     @Test
-    public void testAddInventory_ValidAmt() {
+    public void testAddInventory_ValidAmtZeroSugar() {
 
         try {
             cf.addInventory("2", "3", "0", "1");
@@ -187,6 +187,21 @@ public class CoffeeMakerAddInventoryTests {
 
         String expectedInvent = cf.checkInventory();
         String actualInvent = "Coffee: 17\nMilk: 18\nSugar: 15\nChocolate: 16\n";
+
+        assertEquals(expectedInvent, actualInvent);
+    }
+
+    @Test
+    public void testAddInventory_ValidAmtPositiveSugar() {
+
+        try {
+            cf.addInventory("2", "3", "5", "1");
+        }catch (InventoryException e){
+            fail(e.getMessage());
+        }
+
+        String expectedInvent = cf.checkInventory();
+        String actualInvent = "Coffee: 17\nMilk: 18\nSugar: 20\nChocolate: 16\n";
 
         assertEquals(expectedInvent, actualInvent);
     }

@@ -222,11 +222,10 @@ public class CoffeeMakerEditRecipeTests {
 
         String name = cf.editRecipe(1, r3);
 
-        assertNotNull(name);
-        assertEquals(name, r5.getName());
+        assertNull(name);
 
         Recipe[] expectedArr = cf.getRecipes();
-        Recipe[] actualArr = {r3,r3,r2,null};
+        Recipe[] actualArr = {r3,r5,r2,null};
 
         assertArrayEquals(expectedArr, actualArr);
     }

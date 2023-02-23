@@ -159,10 +159,9 @@ public class RecipeBookEditRecipeTests {
 
         String name = rb.editRecipe(2, r4);
         Recipe[] expectedArr = rb.getRecipes();
-        Recipe[] actualArr = {r4,r1,r4,null};
+        Recipe[] actualArr = {r4,r1,r2,null};
 
-        assertNotNull(name);
-        assertEquals(name, r2.getName());
+        assertNull(name);
         assertArrayEquals(expectedArr, actualArr);
     }
 
