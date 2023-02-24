@@ -40,29 +40,25 @@ public class RecipeBookGetRecipeTests {
     @Test
     public void testGetRecipes_WithRecipes() {
 
-        boolean appended1 = rb.addRecipe(r1);
-        boolean appended2 = rb.addRecipe(r2);
+        rb.addRecipe(r1);
+        rb.addRecipe(r2);
 
-        //TODO: Should I check if the return values are true as well ?
-        assertTrue(appended1);
-        assertTrue(appended2);
+        Recipe[] recipes = rb.getRecipes();
+        Recipe[] expected = {r1, r2, null, null};
 
-        Recipe[] expectedArr = rb.getRecipes();
-        Recipe[] actualArr = {r1, r2, null, null};
-
-        assertArrayEquals(expectedArr, actualArr);
-        assertEquals(expectedArr.length, 4);
+        assertArrayEquals(expected, recipes);
+        assertEquals(4, recipes.length);
 
     }
 
     @Test
     public void testGetRecipes_NoRecipes() {
 
-        Recipe[] expectedArr = rb.getRecipes();
-        Recipe[] actualArr = {null, null, null, null};
+        Recipe[] recipes = rb.getRecipes();
+        Recipe[] expected = {null, null, null, null};
 
-        assertArrayEquals(expectedArr, actualArr);
-        assertEquals(expectedArr.length, 4);
+        assertArrayEquals(expected, recipes);
+        assertEquals(4, recipes.length);
 
     }
 }

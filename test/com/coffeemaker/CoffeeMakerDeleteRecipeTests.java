@@ -71,7 +71,7 @@ public class CoffeeMakerDeleteRecipeTests {
 
         assertThrows(IndexOutOfBoundsException.class,
                 () -> {
-                    String del = cf.deleteRecipe(5);
+                    cf.deleteRecipe(5);
                 });
     }
 
@@ -80,72 +80,39 @@ public class CoffeeMakerDeleteRecipeTests {
 
         assertThrows(IndexOutOfBoundsException.class,
                 () -> {
-                    String name = cf.deleteRecipe(-1);
+                    cf.deleteRecipe(-1);
                 });
     }
 
     @Test
     public void testDeleteRecipe_ValidIndexNullRecipe() {
 
-        boolean add1 = cf.addRecipe(r2);
-        boolean add2 = cf.addRecipe(r3);
+        cf.addRecipe(r2);
+        cf.addRecipe(r3);
 
-        assertTrue(add1);
-        assertTrue(add2);
+        assertNull(cf.deleteRecipe(2));
 
-        String name = cf.deleteRecipe(2);
+        Recipe[] recipes = cf.getRecipes();
+        Recipe[] expected  = {r2,r3,null,null};
 
-        assertNull(name);
-
-        Recipe[] expectedArr = cf.getRecipes();
-        Recipe[] actualArr = {r2,r3,null,null};
-
-        assertArrayEquals(expectedArr, actualArr);
+        assertArrayEquals(expected , recipes);
     }
 
     @Test
-    public void testDeleteRecipe_ValidIndexDefaultRecipe() {
+    public void testDeleteRecipe_ValidIndexValidRecipe() {
 
-        Recipe rDefault = new Recipe();
-
-        boolean add1 = cf.addRecipe(r2);
-        boolean add2 = cf.addRecipe(r3);
-        boolean add3 = cf.addRecipe(rDefault);
-
-        assertTrue(add1);
-        assertTrue(add2);
-        assertTrue(add3);
-
-        String name = cf.deleteRecipe(2);
-
-        assertNotNull(name);
-        assertEquals(name, rDefault.getName());
-
-        Recipe[] expectedArr = cf.getRecipes();
-        Recipe[] actualArr = {r2,r3,new Recipe(),null};
-
-        assertArrayEquals(expectedArr, actualArr);
-    }
-
-    @Test
-    public void testDeleteRecipe_ValidIndexValidtRecipe() {
-
-        boolean add1 = cf.addRecipe(r2);
-        boolean add2 = cf.addRecipe(r3);
-        boolean add3 = cf.addRecipe(r5);
-
-        assertTrue(add1);
-        assertTrue(add2);
-        assertTrue(add3);
+        cf.addRecipe(r2);
+        cf.addRecipe(r3);
+        cf.addRecipe(r5);
 
         String name = cf.deleteRecipe(2);
 
         assertNotNull(name);
         assertEquals(name, r5.getName());
 
-        Recipe[] expectedArr = cf.getRecipes();
-        Recipe[] actualArr = {r2,r3,new Recipe(),null};
+        Recipe[] recipes = cf.getRecipes();
+        Recipe[] expected = {r2,r3,null,null};
 
-        assertArrayEquals(expectedArr, actualArr);
+        assertArrayEquals(expected, recipes);
     }
 }

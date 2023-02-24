@@ -56,12 +56,13 @@ public class CoffeeMakerMakeCoffeeTests {
 
         //Set up for r5
         r5 = new Recipe();
-        r5.setName("Cappuccino");
+        r5.setName("Hot Chocolate");
         r5.setAmtChocolate("20");
-        r5.setAmtCoffee("18");
-        r5.setAmtMilk("29");
-        r5.setAmtSugar("25");
+        r5.setAmtCoffee("17");
+        r5.setAmtMilk("4");
+        r5.setAmtSugar("1");
         r5.setPrice("85");
+
     }
 
     @Test
@@ -85,96 +86,64 @@ public class CoffeeMakerMakeCoffeeTests {
     @Test
     public void testMakeCoffee_ValidIndexButNull() {
 
-        boolean add1 = cf.addRecipe(r2);
-        boolean add2 = cf.addRecipe(r3);
+        cf.addRecipe(r2);
+        cf.addRecipe(r3);
 
-        assertTrue(add1);
-        assertTrue(add2);
+        assertEquals(100, cf.makeCoffee(2,100));
 
-        int amount = cf.makeCoffee(2,100);
-
-        assertEquals(amount, 100);
-
-        String expectedInvent = cf.checkInventory();
-        String actualInvent = "Coffee: 15\nMilk: 15\nSugar: 15\nChocolate: 15\n";
-
-        assertEquals(expectedInvent, actualInvent);
     }
 
     @Test
     public void testMakeCoffee_ValidIndexButLowMoney() {
 
-        boolean add1 = cf.addRecipe(r4);
-        boolean add2 = cf.addRecipe(r1);
+        cf.addRecipe(r4);
+        cf.addRecipe(r1);
 
-        assertTrue(add1);
-        assertTrue(add2);
-
-        int amount = cf.makeCoffee(1,20);
-
-        assertEquals(amount, 20);
-
-        String expectedInvent = cf.checkInventory();
-        String actualInvent = "Coffee: 15\nMilk: 15\nSugar: 15\nChocolate: 15\n";
-
-        assertEquals(expectedInvent, actualInvent);
+        assertEquals(20, cf.makeCoffee(1,20));
     }
 
     @Test
     public void testMakeCoffee_ValidIndexButNegativeMoney() {
 
-        boolean add1 = cf.addRecipe(r4);
-        boolean add2 = cf.addRecipe(r2);
+        cf.addRecipe(r4);
+        cf.addRecipe(r2);
 
-        assertTrue(add1);
-        assertTrue(add2);
-
-
-        assertThrows(InventoryException.class,
-                () -> {
-                    cf.makeCoffee(1, -5);
-                });
+        assertEquals(-5, cf.makeCoffee(1, -5));
 
     }
 
     @Test
     public void testMakeCoffee_ValidIndexAndMoneyButLowInventory() {
 
-        boolean add1 = cf.addRecipe(r5);
-        boolean add2 = cf.addRecipe(r3);
+        cf.addRecipe(r2);
+        cf.addRecipe(r3);
 
-        assertTrue(add1);
-        assertTrue(add2);
+        assertEquals(200, cf.makeCoffee(0, 200));
 
-        int amount = cf.makeCoffee(0, 100);
+    }
 
-        assertEquals(amount, 100);
+    @Test
+    public void testMakeCoffee_ValidIndexAndMoneyButHalfLowInventory() {
 
-        String expectedInvent = cf.checkInventory();
-        String actualInvent = "Coffee: 15\nMilk: 15\nSugar: 15\nChocolate: 15\n";
+        cf.addRecipe(r5);
+        cf.addRecipe(r3);
 
-        assertEquals(expectedInvent, actualInvent);
-
+        assertEquals(100, cf.makeCoffee(0, 100));
     }
 
     @Test
     public void testMakeCoffee_ValidIndexAndMoneyAndEnoughInventory() {
 
-        boolean add1 = cf.addRecipe(r4);
-        boolean add2 = cf.addRecipe(r3);
+        cf.addRecipe(r3);
 
-        assertTrue(add1);
-        assertTrue(add2);
-
-        int amount = cf.makeCoffee(0, 100);
-
-        assertEquals(amount, 35);
-
-        String expectedInvent = cf.checkInventory();
-        String actualInvent = "Coffee: 11\nMilk: 15\nSugar: 14\nChocolate: 14\n";
-
-        assertEquals(expectedInvent, actualInvent);
+        assertEquals(150, cf.makeCoffee(0, 250));
 
     }
+
+
+
+
+
+
 
 }

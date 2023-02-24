@@ -39,29 +39,25 @@ public class CoffeeMakerGetRecipeTests {
     @Test
     public void testGetRecipes_WithRecipes() {
 
-        boolean add1 = cf.addRecipe(r1);
-        boolean add2 = cf.addRecipe(r2);
+        cf.addRecipe(r1);
+        cf.addRecipe(r2);
 
-        //TODO: Should I check if the return values are true as well ?
-        assertTrue(add1);
-        assertTrue(add2);
+        Recipe[] recipes = cf.getRecipes();
+        Recipe[] expected  = {r1, r2, null, null};
 
-        Recipe[] expectedArr = cf.getRecipes();
-        Recipe[] actualArr = {r1, r2, null, null};
-
-        assertArrayEquals(expectedArr, actualArr);
-        assertEquals(expectedArr.length, 4);
+        assertArrayEquals(expected, recipes);
+        assertEquals(4, recipes.length);
 
     }
 
     @Test
     public void testGetRecipes_NoRecipes() {
 
-        Recipe[] expectedArr = cf.getRecipes();
-        Recipe[] actualArr = {null, null, null, null};
+        Recipe[] recipes = cf.getRecipes();
+        Recipe[] expected = {null, null, null, null};
 
-        assertArrayEquals(expectedArr, actualArr);
-        assertEquals(expectedArr.length, 4);
+        assertArrayEquals(expected, recipes);
+        assertEquals(4, recipes.length);
 
     }
 }

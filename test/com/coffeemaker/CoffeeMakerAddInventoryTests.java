@@ -182,13 +182,13 @@ public class CoffeeMakerAddInventoryTests {
         try {
             cf.addInventory("2", "3", "0", "1");
         }catch (InventoryException e){
-            fail(e.getMessage());
+            fail("InventoryException should not be thrown");
         }
 
-        String expectedInvent = cf.checkInventory();
-        String actualInvent = "Coffee: 17\nMilk: 18\nSugar: 15\nChocolate: 16\n";
+        String inventory = cf.checkInventory();
+        String expected = "Coffee: 17\nMilk: 18\nSugar: 15\nChocolate: 16\n";
 
-        assertEquals(expectedInvent, actualInvent);
+        assertEquals(expected, inventory);
     }
 
     @Test
@@ -197,12 +197,14 @@ public class CoffeeMakerAddInventoryTests {
         try {
             cf.addInventory("2", "3", "5", "1");
         }catch (InventoryException e){
-            fail(e.getMessage());
+            fail("InventoryException should not be thrown");
         }
 
-        String expectedInvent = cf.checkInventory();
-        String actualInvent = "Coffee: 17\nMilk: 18\nSugar: 20\nChocolate: 16\n";
+        String inventory = cf.checkInventory();
+        String expected = "Coffee: 17\nMilk: 18\nSugar: 20\nChocolate: 16\n";
 
-        assertEquals(expectedInvent, actualInvent);
+        assertEquals(expected, inventory);
     }
+
+
 }

@@ -58,88 +58,98 @@ public class CoffeeMakerAddRecipeTests {
         r5 = new Recipe();
         r5.setName("Cappuccino");
         r5.setAmtChocolate("1");
-        r5.setAmtCoffee("3");
+        r5.setAmtCoffee("30");
         r5.setAmtMilk("1");
-        r5.setAmtSugar("1");
-        r5.setPrice("85");
+        r5.setAmtSugar("50");
+        r5.setPrice("850");
 
 
     }
 
     @Test
     public void testAddRecipe_NullRecipe() {
+
         assertThrows(NullPointerException.class,
                 () -> {
-                    boolean add = cf.addRecipe(null);
+                    cf.addRecipe(null);
                 });
 
     }
 
     @Test
-    public void testAddRecipe_ValidRecipe() {
+    public void testAddRecipe_Noraml() {
 
-        boolean addByCf = cf.addRecipe(r1);
-        assertTrue(addByCf);
+        assertTrue(cf.addRecipe(r1));
 
-        boolean addByRb = new RecipeBook().addRecipe(r1);
-        assertTrue(addByRb);
+        Recipe[] recipes = cf.getRecipes();
+        Recipe[] expected = {r1,null,null,null};
 
-        assertEquals(addByCf, addByRb);
-
-        Recipe[] expectedArr = cf.getRecipes();
-        Recipe[] actualArr = {r1,null,null,null};
-
-        assertArrayEquals(expectedArr, actualArr);
+        assertArrayEquals(expected, recipes);
     }
 
     @Test
     public void testAddRecipe_DuplicateRecipes() {
 
-        boolean add1 = cf.addRecipe(r3);
-        boolean add2 = cf.addRecipe(r3);
+        assertTrue(cf.addRecipe(r3));
+        assertFalse(cf.addRecipe(r3));
 
-        assertTrue(add1);
-        assertFalse(add2);
+        Recipe[] recipes = cf.getRecipes();
+        Recipe[] expected = {r3,null,null,null};
 
-        Recipe[] expectedArr = cf.getRecipes();
-        Recipe[] actualArr = {r3,null,null,null};
+        assertArrayEquals(expected, recipes);
 
-        assertArrayEquals(expectedArr, actualArr);
+    }
+
+    @Test
+    public void testAddRecipe_AddDuplicateNameRecipes() {
+
+        Recipe copyName = new Recipe();
+        try {
+            copyName.setName(r3.getName());
+            copyName.setAmtChocolate("7");
+            copyName.setAmtCoffee("14");
+            copyName.setAmtMilk("5");
+            copyName.setAmtSugar("10");
+            copyName.setPrice("90");
+        }catch (RecipeException e){
+            fail("Should not throw RecipeException");
+        }
+
+        assertTrue(cf.addRecipe(r2));
+        assertTrue(cf.addRecipe(r3));
+        assertFalse(cf.addRecipe(copyName));
+
+        Recipe[] recipes = cf.getRecipes();
+        Recipe[] expected = {r2, r3, null, null};
+
+        assertArrayEquals(expected, recipes);
 
     }
 
     @Test
     public void testAddRecipe_DefaultRecipe() {
 
-        boolean add = cf.addRecipe(new Recipe());
+        assertFalse(cf.addRecipe(new Recipe()));
 
-        assertTrue(add);
+        Recipe[] recipes = cf.getRecipes();
+        Recipe[] expected = {null,null,null,null};
 
-        Recipe[] expectedArr = cf.getRecipes();
-        Recipe[] actualArr = {new Recipe(),null,null,null};
-
-        assertArrayEquals(expectedArr, actualArr);
+        assertArrayEquals(expected, recipes);
     }
 
     @Test
     public void testAddRecipe_TooManyRecipes() {
 
-        boolean add1 = cf.addRecipe(r1);
-        boolean add2 = cf.addRecipe(r2);
-        boolean add3 = cf.addRecipe(r3);
-        boolean add4 = cf.addRecipe(r4);
-        boolean add5 = cf.addRecipe(r5);
+        assertTrue(cf.addRecipe(r1));
+        assertTrue(cf.addRecipe(r2));
+        assertTrue(cf.addRecipe(r3));
+        assertTrue(cf.addRecipe(r4));
+        assertFalse(cf.addRecipe(r5));
 
-        assertTrue(add1);
-        assertTrue(add2);
-        assertTrue(add3);
-        assertTrue(add4);
-        assertFalse(add5);
+        Recipe[] recipes = cf.getRecipes();
+        Recipe[] expected = {r1,r2,r3,r4};
 
-        Recipe[] expectedArr = cf.getRecipes();
-        Recipe[] actualArr = {r1,r2,r3,r4};
-
-        assertArrayEquals(expectedArr, actualArr);
+        assertArrayEquals(expected, recipes);
 
     }
 }

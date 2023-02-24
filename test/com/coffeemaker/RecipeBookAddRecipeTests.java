@@ -59,8 +59,8 @@ public class RecipeBookAddRecipeTests {
         r5 = new Recipe();
         r5.setName("Cappuccino");
         r5.setAmtChocolate("1");
-        r5.setAmtCoffee("3");
-        r5.setAmtMilk("1");
+        r5.setAmtCoffee("30");
+        r5.setAmtMilk("20");
         r5.setAmtSugar("1");
         r5.setPrice("85");
 
@@ -68,16 +68,14 @@ public class RecipeBookAddRecipeTests {
     }
 
     @Test
-    public void testAddRecipe_AddToEmptyArray() {
+    public void testAddRecipe_Normal() {
 
-        boolean appended = rb.addRecipe(r1);
+        assertTrue(rb.addRecipe(r1));
 
-        assertTrue(appended);
+        Recipe[] recipes = rb.getRecipes();
+        Recipe[] expected = {r1, null, null, null};
 
-        Recipe[] expectedArr = rb.getRecipes();
-        Recipe[] actualArr = {r1, null, null, null};
-
-        assertArrayEquals(expectedArr, actualArr);
+        assertArrayEquals(expected, recipes);
 
     }
 
@@ -86,7 +84,7 @@ public class RecipeBookAddRecipeTests {
 
         assertThrows(NullPointerException.class,
                 () -> {
-                    boolean appended = rb.addRecipe(null);
+                    rb.addRecipe(null);
                 });
 
     }
@@ -94,55 +92,69 @@ public class RecipeBookAddRecipeTests {
     @Test
     public void testAddRecipe_AddDefaultRecipe() {
 
-        boolean appended = rb.addRecipe(new Recipe());
+        assertFalse(rb.addRecipe(new Recipe()));
 
-        assertTrue(appended);
+        Recipe[] recipes = rb.getRecipes();
+        Recipe[] expected  = {null, null, null, null};
 
-        Recipe[] expectedArr = rb.getRecipes();
-        Recipe[] actualArr = {new Recipe(), null, null, null};
-
-        assertArrayEquals(expectedArr, actualArr);
+        assertArrayEquals(expected , recipes);
 
     }
 
     @Test
     public void testAddRecipe_AddDuplicateRecipe() {
 
-        boolean appended1 = rb.addRecipe(r2);
-        boolean appended2 = rb.addRecipe(r3);
-        boolean appended3 = rb.addRecipe(r3);
+        assertTrue(rb.addRecipe(r2));
+        assertTrue(rb.addRecipe(r3));
+        assertFalse(rb.addRecipe(r3));
 
-        assertTrue(appended1);
-        assertTrue(appended2);
-        assertFalse(appended3);
+        Recipe[] recipes = rb.getRecipes();
+        Recipe[] expected = {r2, r3, null, null};
 
-        Recipe[] expectedArr = rb.getRecipes();
-        Recipe[] actualArr = {r2, r3, null, null};
+        assertArrayEquals(expected, recipes);
 
-        assertArrayEquals(expectedArr, actualArr);
+    }
+
+    @Test
+    public void testAddRecipe_AddDuplicateNameRecipes() {
+
+        Recipe copyName = new Recipe();
+        try {
+            copyName.setName(r3.getName());
+            copyName.setAmtChocolate("7");
+            copyName.setAmtCoffee("14");
+            copyName.setAmtMilk("5");
+            copyName.setAmtSugar("10");
+            copyName.setPrice("90");
+        }catch (RecipeException e){
+            fail("Should not throw RecipeException");
+        }
+
+        assertTrue(rb.addRecipe(r2));
+        assertTrue(rb.addRecipe(r3));
+        assertFalse(rb.addRecipe(copyName));
+
+        Recipe[] recipes = rb.getRecipes();
+        Recipe[] expected = {r2, r3, null, null};
+
+        assertArrayEquals(expected, recipes);
 
     }
 
     @Test
     public void testAddRecipe_AddToFullArray() {
 
-        boolean appended1 = rb.addRecipe(r1);
-        boolean appended2 = rb.addRecipe(r2);
-        boolean appended3 = rb.addRecipe(r3);
-        boolean appended4 = rb.addRecipe(r4);
-        boolean appended5 = rb.addRecipe(r5);
-
-        assertTrue(appended1);
-        assertTrue(appended2);
-        assertTrue(appended3);
-        assertTrue(appended4);
-        assertFalse(appended5);
+        assertTrue(rb.addRecipe(r1));
+        assertTrue(rb.addRecipe(r2));
+        assertTrue(rb.addRecipe(r3));
+        assertTrue(rb.addRecipe(r4));
+        assertFalse(rb.addRecipe(r5));
 
 
-        Recipe[] arr = rb.getRecipes();
-        for (Recipe recipe : arr) {
-            assertNotEquals(recipe, r5);
-        }
+        Recipe[] recipes = rb.getRecipes();
+        Recipe[] expected = {r1, r2, r3, r4};
+
+        assertArrayEquals(expected, recipes);
 
     }
 }

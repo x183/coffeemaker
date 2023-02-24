@@ -69,100 +69,98 @@ public class RecipeBookEditRecipeTests {
 
     @Test
     public void testEditRecipe_OutOfBoundIndex() {
-        boolean appended1 = rb.addRecipe(r1);
-        assertTrue(appended1);
 
-        //TODO: Should I catch this exceptions or is this a fault in the code ?
         assertThrows(IndexOutOfBoundsException.class,
                 () -> {
-                    String name = rb.editRecipe(4, r2);
+                    rb.editRecipe(4, r2);
                 });
 
     }
 
     @Test
     public void testEditRecipe_NegativeIndex() {
-        boolean appended1 = rb.addRecipe(r2);
-        assertTrue(appended1);
 
-        //TODO: Should I catch this exceptions or is this a fault in the code ?
         assertThrows(IndexOutOfBoundsException.class,
                 () -> {
-                    String name = rb.editRecipe(-1, r5);
+                    rb.editRecipe(-1, r5);
                 });
     }
 
     @Test
     public void testEditRecipe_CorrectIndexButNull() {
-        boolean appended1 = rb.addRecipe(r2);
-        boolean appended2 = rb.addRecipe(r3);
 
-        assertTrue(appended1);
-        assertTrue(appended2);
+        rb.addRecipe(r2);
+        rb.addRecipe(r3);
 
-        String name = rb.editRecipe(2, r4);
+        assertNull(rb.editRecipe(2, r4));
 
-        Recipe[] expectedArr = rb.getRecipes();
-        Recipe[] actualArr = {r2,r3,null,null};
+        Recipe[] recipes = rb.getRecipes();
+        Recipe[] expected = {r2,r3,null,null};
 
-        assertNull(name);
-        assertArrayEquals(expectedArr, actualArr);
+        assertArrayEquals(expected, recipes);
 
     }
 
     @Test
     public void testEditRecipe_CorrectIndexWithNullRecipe() {
-        boolean appended1 = rb.addRecipe(r1);
-        boolean appended2 = rb.addRecipe(r4);
-        boolean appended3 = rb.addRecipe(r5);
 
-        assertTrue(appended1);
-        assertTrue(appended2);
-        assertTrue(appended3);
+        rb.addRecipe(r1);
+        rb.addRecipe(r4);
 
         assertThrows(NullPointerException.class,
                 () -> {
-                    String name = rb.editRecipe(2, null);
+                    rb.editRecipe(1, null);
                 });
+
 
     }
 
     @Test
     public void testEditRecipe_CorrectIndexWithRecipe() {
-        boolean appended1 = rb.addRecipe(r2);
-        boolean appended2 = rb.addRecipe(r3);
-        boolean appended3 = rb.addRecipe(r4);
 
-        assertTrue(appended1);
-        assertTrue(appended2);
-        assertTrue(appended3);
+        rb.addRecipe(r2);
+        rb.addRecipe(r3);
+        rb.addRecipe(r4);
 
         String name = rb.editRecipe(2, r5);
-        Recipe[] expectedArr = rb.getRecipes();
-        Recipe[] actualArr = {r2,r3,r5,null};
 
         assertNotNull(name);
         assertEquals(name, r4.getName());
-        assertArrayEquals(expectedArr, actualArr);
+
+        Recipe[] recipes = rb.getRecipes();
+        Recipe[] expected = {r2,r3,r5,null};
+
+        assertArrayEquals(expected, recipes);
     }
 
     @Test
     public void testEditRecipe_CorrectIndexWithDuplicateRecipe() {
-        boolean appended1 = rb.addRecipe(r4);
-        boolean appended2 = rb.addRecipe(r1);
-        boolean appended3 = rb.addRecipe(r2);
 
-        assertTrue(appended1);
-        assertTrue(appended2);
-        assertTrue(appended3);
+        rb.addRecipe(r4);
+        rb.addRecipe(r1);
+        rb.addRecipe(r2);
 
+        assertNull(rb.editRecipe(2, r4));
 
-        String name = rb.editRecipe(2, r4);
-        Recipe[] expectedArr = rb.getRecipes();
-        Recipe[] actualArr = {r4,r1,r2,null};
+        Recipe[] recipes = rb.getRecipes();
+        Recipe[] expected = {r4,r1,r2,null};
 
-        assertNull(name);
-        assertArrayEquals(expectedArr, actualArr);
+        assertArrayEquals(expected, recipes);
+    }
+
+    @Test
+    public void testEditRecipe_CorrectIndexWithDefaultRecipe() {
+
+        rb.addRecipe(r4);
+        rb.addRecipe(r1);
+        rb.addRecipe(r2);
+
+        assertNull(rb.editRecipe(2, new Recipe()));
+
+        Recipe[] recipes = rb.getRecipes();
+        Recipe[] expected = {r4,r1,r2,null};
+
+        assertArrayEquals(expected, recipes);
     }
 
 }

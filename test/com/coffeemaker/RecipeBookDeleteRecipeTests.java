@@ -69,66 +69,53 @@ public class RecipeBookDeleteRecipeTests {
 
     @Test
     public void testDeleteRecipe_OutOfBoundIndex() {
-        boolean appended1 = rb.addRecipe(r1);
-        assertTrue(appended1);
 
-        //TODO: Should I catch this exceptions or is this a fault in the code ?
         assertThrows(IndexOutOfBoundsException.class,
                 () -> {
-                    String name = rb.deleteRecipe(4);
+                    rb.deleteRecipe(4);
                 });
     }
 
     @Test
     public void testDeleteRecipe_NegativeIndex() {
-        boolean appended1 = rb.addRecipe(r2);
-        assertTrue(appended1);
 
-        //TODO: Should I catch this exceptions or is this a fault in the code ?
         assertThrows(IndexOutOfBoundsException.class,
                 () -> {
-                    String name = rb.deleteRecipe(-1);
+                    rb.deleteRecipe(-1);
                 });
 
     }
 
     @Test
     public void testDeleteRecipe_CorrectIndexButNull() {
-        boolean appended1 = rb.addRecipe(r2);
-        boolean appended2 = rb.addRecipe(r3);
 
-        assertTrue(appended1);
-        assertTrue(appended2);
+        rb.addRecipe(r2);
+        rb.addRecipe(r3);
 
-        String name = rb.deleteRecipe(2);
+        assertNull(rb.deleteRecipe(2));
 
-        assertNull(name);
+        Recipe[] recipes = rb.getRecipes();
+        Recipe[] expected = {r2,r3,null,null};
 
-        Recipe[] expectedArr = rb.getRecipes();
-        Recipe[] actualArr = {r2,r3,null,null};
-
-        assertArrayEquals(expectedArr, actualArr);
+        assertArrayEquals(expected, recipes);
     }
 
     @Test
     public void testDeleteRecipe_CorrectIndexWithRecipe() {
-        boolean appended1 = rb.addRecipe(r2);
-        boolean appended2 = rb.addRecipe(r3);
-        boolean appended3 = rb.addRecipe(r4);
 
-        assertTrue(appended1);
-        assertTrue(appended2);
-        assertTrue(appended3);
+        rb.addRecipe(r2);
+        rb.addRecipe(r3);
+        rb.addRecipe(r4);
 
         String name = rb.deleteRecipe(2);
 
-        Recipe[] expectedArr = rb.getRecipes();
-        Recipe[] actualArr = {r2,r3,new Recipe(),null};
-
-
         assertNotNull(name);
         assertEquals(name, r4.getName());
-        assertArrayEquals(expectedArr, actualArr);
+
+        Recipe[] recipes = rb.getRecipes();
+        Recipe[] expected  = {r2,r3,null,null};
+
+        assertArrayEquals(expected , recipes);
     }
 
 }
